@@ -368,51 +368,114 @@ print(calc(1, 2, 3))
 nums = [2, 3, 6]
 print(calc(*nums))
 
+#   关键字参数
+
+#   关键字参数允许传入0个或者任意个参数, 这些可变参数在函数调用时自动组装为一个tuple, 而关键字参数允许传入0个或者任意个含参数名的参数,
+#   这些关键字参数在函数内部自动组装为一个dict
+
+#   name和age是必传参数, kw就是关机中参数, 可以传入任意数量的可选参数
+def person(name, age, **kw):
+    print('name:', name, 'age:', age, 'other:', kw)
+
+print(person('Michael', 12))
+
+print(person('Bob', 77, city='Beijing'))
+
+print(person('Pitter', 32, city='Newyork', gender='Male'))
+
+#   我们也可以自己先组装出一个dict, 再把dict转换为关键字参数传进去
+extra = {'city': 'Beijing', 'job': 'Engineer'}
+print(extra['city'], extra['job'])
+# print('Jack', 23, city=extra['city'], job= extra['job'])
+print('Jack', 21, extra)
+
+#   命名关键字参数, 在函数内部通过kw检查传入了哪些参数
+def person(name, age, **kw):
+    if 'city' in kw:
+        print('city in')
+        pass
+    if 'job' in kw:
+        print('job in')
+        pass
+    print('name:', name, 'age:', age, 'other:', kw)
+
+print(person('Jack', 33, city='Shanghai', addr='Chaoyang', zipcode=123456))
+
+#   如果要限制关键字参数的名字, 就可以ongoing命名关键字参数, 比如: 只接收city和job作为关键字参数:
+def person(name, age, *, city, job):
+    print(name, age, city, job)
+#   和关键字参数 **kw 不同, 命名关键字参数需要一个特殊分隔符 *, *后面的参数被视为命名关键字参数, 命名关键字参数必须传入参数名, 否则报错
+person('Jack', 56, city='Beijing', job='Engineer')
+
+#   如果函数定义中已经有了一个可变参数, 后面跟着的命名关键字参数就不再需要一个特殊分隔符*了
+def person(name, age, *args, city, job):
+    print(name, age, args, city, job)
+
+print(person('Jack', 22, city='Beijing', job='Engineer'))
+
+#   命名关键字参数可以有缺省值, 简化调用
+def person(name, age, *, city='Beijing', job):
+    print(name, age, city, job)
+
+print(person('Jack', 33, job='heh'))
 
 
+#   Python中, 可以用必选参数, 默认参数, 可变参数, 关键字参数, 和命名关键字参数, 这5种参数组合使用, 但是注意:
+#   参数定义的顺序必须是: 必选参数, 默认参数, 可变参数, 关键字参数和命名关键字参数
+def f1(a, b, c=0, *args, **kw):
+    print('a=', a, 'b=', b, 'c=', c, 'args=', args, 'kw=', kw)
+
+def f2(a, b, c=0, *, d, **kw):
+    print('a=', a, 'b=', b, 'c=', c, 'd=', d, 'dw=', kw)
+
+print(f1(1, 2))
+print(f1(1, 2, c=3))
+print(f1(1, 2, 3, 'a', 'b'))
+print(f1(1, 2, 3, 'a', 'b', x=0))
+f2(1, 2, d=99, ext=None)
+
+#   通过tuple和dict也可以调用上述函数, 对于任意函数, 都可以通过func(*args, **kw)的形式调用它, 无聊它的参数是如何定义的
+args = (1, 2, 3, 4)
+kw = {'d': 99, 'x': '#'}
+print(f1(*args, **kw))
+
+print('---------------------分割线-------------递归函数-------------------------')
+
+#   如果在一个函数内部调用自身本身, 这个函数就是地柜函数
+def fact(n):
+    if n==1:
+        return 1
+    return n * fact(n - 1)
+print(fact(100))
+
+#   使用递归要注意防止栈溢出, 在计算机中, 函数调用时通过栈(stack)这种数据结构实现的, 每当进入一个函数调用, 栈就会加一层栈帧,
+#   每当函数返回, 栈就会减一层栈帧, 由于栈的大小不是无限的, 所以, 递归次数过多时, 会导致栈溢出, 比如fact(1000)
+#   解决栈溢出的方法是通过尾递归优化, 尾递归是指在函数返回时, 调用自身本身, 并且, return预警不能包含表达式, 这样无论调用多少次,
+#   都只会占用一个栈帧
+#   Python没有对尾递归做优化, 任何递归函数都存在栈溢出的问题
+def fact(n):
+    return fact_iter(n, 1)
+
+def fact_iter(num, product):
+    if num == 1:
+        return product
+    return fact_iter(num - 1, num * product)
+
+print(fact(100))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#   汉诺塔问题
+def move(n, a, b, c):
+    return fact_imove(n, a, b, c)
+def fact_imove(n, a, b, c):
+    if n == 1:
+        print(a, '-->', c)
+        return
+    else:
+        fact_imove(n-1, a, c, b)
+        fact_imove(1, a, b, c)
+        fact_imove(n-1, b, a, c)
+move(3, 'A', 'B', 'C')
 
 
 
