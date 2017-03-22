@@ -34,3 +34,7 @@ def greeting(name):
         return _private_1(name)
     else:
         return _private_2(name)
+
+class Hello(object):
+    def helllo(self, name='world'):
+        print('Hello, %s.' % name)
