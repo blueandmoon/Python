@@ -1,5 +1,7 @@
 from io import StringIO
 from io import BytesIO
+import pickle
+import json
 
 print('-----------------------------------------分割线----------------------------文件读写--------------------------------')
 
@@ -120,6 +122,456 @@ import os
 print(os.name)  #   操作系统类型. 如果是posix, 说明系统是Linux, Unix或Mac OS x, 如果是nt, 就是windows系统
 #   要获取到详细的系统信息, 可以调用uname()函数
 print(os.uname())
+
+#   环境变量, 在操作系统中定义的环境变量, 全部保存在os.environ这个变量中
+print(os.environ)
+
+#   要获取某个环境变量的值, 可以调用os.environ.get('key'):
+print(os.environ.get('PATH'))
+print(os.environ.get('x', 'default'))
+
+#   操作文件和目录
+#   操作文件和目录的函数一部分放在os模块中, 一部分放在os.path模块中
+
+#   查看当前目录的绝对路径:
+print(os.path.abspath('.'))
+#   在某个目录下创建一个新目录, 首先把新目录的完整路径表示出来:
+print(os.path.join('/Users/apple/ligen/Python/myPython', 'testdir'))
+#   然后创建一个目录:
+# os.mkdir('/Users/apple/ligen/Python/myPython/testdir')
+#   删掉一个目录:
+# os.rmdir('/Users/apple/ligen/Python/myPython/testdir')
+
+#   拆分路径:   拆分为两部分, 后一部分总是最后级别的目录或文件名
+print(os.path.split('/Users/apple/ligen/Python/myPython/testdir'))
+
+#   后一部分为文件扩展名, 这些函数都是对字符串进行操作的
+print(os.path.splitext('/Users/apple/ligen/Python/myPython/testdir/a.txt'))
+
+#   文件操作使用下面的函数, 嘉定当前目录下有一个test.txt文件:
+
+#   对文件重命名
+# os.rename('test.txt', 'test.py')
+#   删除文件
+# os.remove('test.pay')
+
+#   列出当前目录下的所有目录:
+print([x for x in os.listdir('.') if os.path.isdir(x)])
+
+#   列出所有的.py文件:
+print([x for  x in os.listdir('.') if os.path.isfile(x) and os.path.splitext(x)[1]=='.py'])
+
+
+print('----------------------------------------分割线----------------------------序列化-----------------------------------')
+
+#   在程序运行过程中, 所有的变量都是存在内存中的, 等程序结束, 变量所占的内存就会被系统收回
+#   我们吧变量从内存中变成可存储或传输的过程称之为序列化, 在Python中叫做pickling,
+#   序列化之后, 就可以吧序列化后的内容写入磁盘, 或者通过网络出疏导别的机器上, 与反序列化对应
+#   improt pickle
+d = dict(name='Bob', age=20, score=88)
+print(pickle.dumps(d))
+
+#   pickle可以吧对象序列化为一个bytes, 然后就可以把这个bytes写入文件, 或者使用pickle.dump()直接把对象序列化后写入一个file-like Object:
+f = open('dump.txt', 'wb')
+pickle.dump(d, f)
+f.close()
+
+#   从磁盘读取到内存时, 可以先把内容读取到bytes, 然后用pickle.loads()方法反序列化出对象, 也可以直接pickle.load()方法从一个file-like Object
+#   中直接反序列化出对象
+f = open('dump.txt', 'rb')
+d = pickle.load(f)
+f.close()
+print(d)
+
+
+#   把对象转为json, improt json
+d = dict(name='Bobb', age=29, score=88)
+print(json.dumps(d))    #   json返回一个str
+#   要把json反序列化, 使用loads()或者对应的load()方法, 前者吧JSON的字符串反序列化, 后者从file-like Object中读取字符串并反序列化
+j = json.dumps(d)
+print(json.loads(j))
+
+
+#   JSON进阶
+
+
+
+
+
+
+
+''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
